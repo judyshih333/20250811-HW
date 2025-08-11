@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投籃機</title>
+
+    <!-- 載入font awesome(min)版 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- 載入bs  css(min)版 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css"
+        integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 20px;
+        }
+
+        .hide-btn {
+            display: none;
+        }
+
+        .show-btn {
+            display: inline;
+        }
+
+        .btn-primary,
+        .btn-success {
+            width: 50%;
+
+        }
+
+        .btn-secondary,
+        .btn-danger {
+            width: 25%;
+        }
+
+        .ball-img {
+            max-height: 40vh;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .infoBox {
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row mt-3  infoBox">
+            <div class="col">
+                <div><i class="fa-solid fa-hourglass-start"></i>&nbsp;剩餘時間</div>
+                <span id="time">30</span>
+            </div>
+            <div class="col">
+                <div> <i class="fa-solid fa-basketball"></i>&nbsp;目前得分</div>
+                <span id="score">0</span>
+            </div>
+            <div class="col">
+                <div><i class="fa-solid fa-ranking-star"></i>&nbsp;歷史最高分</div>
+                <span id="maxScore">-</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div><img class="img-fluid ball-img" src="./img/izzy-park-K73fkZ6d-No-unsplash.jpg" alt=""></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col">
+                <button type="button" class="btn btn-primary class-btn" id="startBtn">開始</button>
+                <button type="button" class="btn btn-success class-btn" id="shotBtn">投籃</button>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+                <button type="button" class="btn btn-secondary class-btn" id="pauseBtn">暫停</button>
+                <button type="button" class="btn btn-danger class-btn" id="stopBtn">結束</button>
+            </div>
+        </div>
+
+
+
+        <!-- 載入bs  js(min)版 -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js"
+            integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+        <!-- 載入jquery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+            </script>
+
+
+        <script>
+
+            // 改成jq
+
+            $(document).ready(function () {
+                // 1.bind
+                // const startBtn = document.getElementById("startBtn")
+                // const shotBtn = document.getElementById("shotBtn")
+                // const stopBtn = document.getElementById("stopBtn")
+                // const pauseBtn = document.getElementById("pauseBtn")
+
+                const startBtn = $("#startBtn")
+                const shotBtn = $("#shotBtn")
+                const stopBtn = $("#stopBtn")
+                const pauseBtn = $("#pauseBtn")
+
+                // let score = 0;
+                // let startTime = 30;
+                // let myInterval = null;
+
+                let score = 0;
+                let startTime = 30;
+                let myInterval = null;
+
+                //  const scoreSpan = document.getElementById("score")
+                //  console.log('score ok');
+                //  const timeSpan = document.getElementById("time")
+                //  console.log('Time ok');
+
+                const scoreSpan = $("#score")
+                console.log('score ok');
+                const timeSpan = $("#time")
+                console.log('Time ok');
+
+
+                // 歷史最高分
+                // const maxScoreSpan = document.getElementById("maxScore");
+                // let maxScore = 0;
+
+                // localStorage.setItem('maxScore', 111);
+                // let getMaxScore = Number(localStorage.getItem('maxScore'));
+                // if (getMaxScore) {
+                //     maxScore = getMaxScore;
+                // }
+
+                // console.log('maxScore typeof', typeof (maxScore));
+
+                // maxScoreSpan.innerHTML = maxScore;
+
+
+                const maxScoreSpan = $("#maxScore");
+                let maxScore = 0;
+
+
+                let getMaxScore = Number(localStorage.getItem('maxScore'));
+                if (getMaxScore) {
+                    maxScore = getMaxScore;
+                }
+
+                console.log('maxScore typeof', typeof (maxScore));
+
+                maxScoreSpan.html(maxScore);
+
+
+                // hideBtn
+                // shotBtn.setAttribute('class', 'hide-btn');
+                shotBtn.attr('class', 'hide-btn');
+
+
+                // 2.action
+                // startBtn.addEventListener('click', function () {
+                //     this.setAttribute('class', 'btn btn-primary class-btn hide-btn');
+                //     shotBtn.setAttribute('class', 'btn btn-success class-btn show-btn');
+
+                
+                startBtn.click(function (e) {
+                    e.preventDefault();
+                    $(this).attr('class', 'btn btn-primary class-btn hide-btn');
+                    shotBtn.attr('class', 'btn btn-success class-btn show-btn');
+
+
+
+                    //  setInterval()
+                    // myInterval = setInterval(() => {
+                    //     startTime--;
+                    //     timeSpan.innerHTML = startTime;
+                    //     if (startTime < 10) {
+                    //         timeSpan.setAttribute('class', 'text-danger display-6')
+                    //     }
+                    //     if (startTime < 1) {
+                    //         clearInterval(myInterval);
+                    //     }
+
+
+                    // }, 1000);
+
+
+                    // });
+
+                    myInterval = setInterval(() => {
+                        startTime--;
+                        timeSpan.html(startTime);
+                        if (startTime < 10) {
+                            timeSpan.attr('class', 'text-danger display-6')
+                        }
+                        if (startTime < 1) {
+                            clearInterval(myInterval);
+                        }
+
+
+                    }, 1000);
+
+                });
+
+
+                // shotBtn.addEventListener('click', function () {
+
+                //     // 時間倒數結束，按鈕就失效
+                //     if (startTime < 1) {
+                //         return false;
+                //     }
+
+                //     if (startTime < 10) {
+                //         score += 10;
+                //     } else {
+                //         score += 2;
+                //     }
+                //     scoreSpan.innerHTML = score;
+
+                // 歷史最高分計算&儲存
+                //     if (score > maxScore) {
+                //         maxScore = score;
+                //         localStorage.setItem('maxScore', maxScore);
+                //         maxScoreSpan.innerHTML = maxScore;
+                //     }
+
+
+                // })
+
+
+                shotBtn.click(function (e) {
+                    e.preventDefault();
+
+                    // 時間倒數結束，按鈕就失效
+                    if (startTime < 1) {
+                        return false;
+                    }
+
+                    if (startTime < 10) {
+                        score += 10;
+                    } else {
+                        score += 2;
+                    }
+                    scoreSpan.html(score);
+
+                    // 歷史最高分計算&儲存
+                    if (score > maxScore) {
+                        maxScore = score;
+                        localStorage.setItem('maxScore', maxScore);
+                        maxScoreSpan.html(maxScore);
+                    }
+
+
+                })
+
+
+                // pauseBtn.addEventListener('click', function () {
+                //     clearInterval(myInterval);
+                //     shotBtn.setAttribute('class', 'hide-btn');
+                //     startBtn.setAttribute('class', 'btn btn-primary class-btn show-btn');
+
+
+                // })
+
+
+                pauseBtn.click(function (e) {
+                    e.preventDefault();
+                    clearInterval(myInterval);
+                    shotBtn.attr('class', 'hide-btn');
+                    startBtn.attr('class', 'btn btn-primary class-btn show-btn');
+
+                });
+
+
+
+                // stopBtn.addEventListener('click', function () {
+                //     score = 0;
+                //     scoreSpan.innerHTML = score;
+
+                //     clearInterval(myInterval);
+                //     startTime = 30;
+                //     timeSpan.innerHTML = startTime;
+                //     timeSpan.setAttribute('class', '')
+
+                //     shotBtn.setAttribute('class', 'hide-btn');
+                //     startBtn.setAttribute('class', 'btn btn-primary class-btn show-btn');
+
+
+                // })
+
+
+
+                stopBtn.click(function (e) {
+                    e.preventDefault();
+                    score = 0;
+                    scoreSpan.html(score);
+
+                    clearInterval(myInterval);
+                    startTime = 30;
+                    timeSpan.html(startTime);
+                    timeSpan.attr('class', '')
+
+                    shotBtn.attr('class', 'hide-btn');
+                    startBtn.attr('class', 'btn btn-primary class-btn show-btn');
+
+                });
+
+
+            });
+
+
+        </script>
+
+
+
+
+
+
+</body>
+
+</html>
